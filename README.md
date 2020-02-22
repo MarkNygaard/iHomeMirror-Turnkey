@@ -2,13 +2,13 @@
 
 Have you ever wanted to setup a Raspberry Pi *without having to SSH or attach a keyboard* to add your WiFi credentials? This is particularly useful when you are making a Raspberry Pi that needs to be deployed somewhere where supplying the credentials via SSH or attaching a keyboard isn't an option. Or it could be useful if you take your Pi to a friend's house and they don't have ethernet cables or extra keyboards+monitors to put your friend's WiFi credentials onto the Pi. With this image base you don't ever need to modify a `wpa_supplicant` with SSH/terminal/PiBakery again!
 
-You can [follow the instructions below](#instructions-to-create-image) to create a turnkey image, or you can just download my latest one at [raspberry-pi-turnkey.schollz.com/2018-06-25-turnkey-1.3.zip](https://raspberry-pi-turnkey.schollz.com/2018-06-25-turnkey-1.3.img.zip) ([v1.3.0](https://github.com/schollz/raspberry-pi-turnkey/releases/tag/v1.3.0), 982MB) and [follow the typical flashing instructions](https://www.raspberrypi.org/documentation/installation/installing-images/README.md). 
+You can [follow the instructions below](#instructions-to-create-image) to create a turnkey image, or you can just download my latest one at [raspberry-pi-turnkey.schollz.com/2018-06-25-turnkey-1.3.zip](https://raspberry-pi-turnkey.schollz.com/2018-06-25-turnkey-1.3.img.zip) ([v1.3.0](https://github.com/schollz/raspberry-pi-turnkey/releases/tag/v1.3.0), 982MB) and [follow the typical flashing instructions](https://www.raspberrypi.org/documentation/installation/installing-images/README.md).
 
 [![Support](https://img.shields.io/badge/donate-$5-brown.svg)](https://www.paypal.me/ZackScholl/5.00)
 
-# Usage 
+# Usage
 
-Once you boot the Pi with this image, wait about 10 minutes for the Pi to reformat the drive and start up the web server. Then you will see a WiFi AP named "ConnectToConnect" (password same). Connect to it and your browser should automatically redirect you to a sign-in page. If not, navigate to `192.168.4.1` where you'll see a login form. 
+Once you boot the Pi with this image, wait about 10 minutes for the Pi to reformat the drive and start up the web server. Then you will see a WiFi AP named "ConnectToConnect" (password same). Connect to it and your browser should automatically redirect you to a sign-in page. If not, navigate to `192.168.4.1` where you'll see a login form.
 
 <p align="center">
   <img src="https://user-images.githubusercontent.com/6550035/36927004-9dd66774-1e2f-11e8-941a-aa192005b2d6.png"/>
@@ -69,7 +69,7 @@ $ sudo apt-get update \
 ```
 $ wget https://nodejs.org/dist/v8.9.4/node-v8.9.4-linux-armv6l.tar.xz
 $ sudo mkdir /usr/lib/nodejs
-$ sudo tar -xJvf node-v8.9.4-linux-armv6l.tar.xz -C /usr/lib/nodejs 
+$ sudo tar -xJvf node-v8.9.4-linux-armv6l.tar.xz -C /usr/lib/nodejs
 $ rm -rf node-v8.9.4-linux-armv6l.tar.xz
 $ sudo mv /usr/lib/nodejs/node-v8.9.4-linux-armv6l /usr/lib/nodejs/node-v8.9.4
 $ echo 'export NODEJS_HOME=/usr/lib/nodejs/node-v8.9.4' >> ~/.profile
@@ -91,7 +91,7 @@ $ source ~/.profile
 ### Install turnkey
 
 ```
-$ git clone https://github.com/djok/raspberry-pi-turnkey.git
+$ git clone https://github.com/MarkNygaard/iHomeMirror-Turnkey.git
 ```
 
 ### Add `pi` to sudoers
@@ -119,7 +119,7 @@ $ sudo nano /etc/rc.local
 And add the following line before `exit 0`:
 
 ```
-su pi -c '/usr/bin/sudo /usr/bin/python3 /home/pi/raspberry-pi-turnkey/startup.py &'
+su pi -c '/usr/bin/sudo /usr/bin/python3 /home/pi/iHomeMirror-Turnkey/startup.py &'
 ```
 
 ### Install Hostapd
@@ -139,7 +139,7 @@ dhcp-range=192.168.4.2,192.168.4.20,255.255.255.0,24h' | sudo tee --append /etc/
 
 <!-- $ echo 'interface=wlan0
 driver=nl80211
-ssid=ConnectToConnect
+ssid=iHomeMirror
 hw_mode=g
 channel=7
 wmm_enabled=0
@@ -147,7 +147,7 @@ macaddr_acl=0
 auth_algs=1
 ignore_broadcast_ssid=0
 wpa=2
-wpa_passphrase=ConnectToConnect
+wpa_passphrase=ihomemirror
 wpa_key_mgmt=WPA-PSK
 wpa_pairwise=TKIP
 rsn_pairwise=CCMP' | sudo tee --append /etc/hostapd/hostapd.conf -->
@@ -192,7 +192,7 @@ $ xhost +local:
 $ sudo gparted-pkexec
 ```
 
-Right click on the SD card image and do "Unmount". Then right click on the image and do "Resize/Move" and change the size to `2400`. 
+Right click on the SD card image and do "Unmount". Then right click on the image and do "Resize/Move" and change the size to `2400`.
 
 Then you can copy the image to your computer using the following command
 
@@ -222,6 +222,6 @@ If you'd like to contribute, please do send a PR!
 
 Thanks to [@ilirb](https://github.com/ilirb) for checking if passphrase is correct before rebooting!
 
-# License 
+# License
 
 MIT
