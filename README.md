@@ -154,22 +154,15 @@ rsn_pairwise=CCMP' | sudo tee --append /etc/hostapd/hostapd.conf -->
 
 $ echo 'DAEMON_CONF="/etc/hostapd/hostapd.conf"' | sudo tee --append /etc/default/hostapd
 $ sudo systemctl unmask hostapd && sudo systemctl unmask dnsmasq
+$ sudo systemctl enable hostapd && sudo systemctl enable dnsmasq
+$ sudo rfkill unblock all
 $ sudo systemctl start hostapd && sudo systemctl start dnsmasq
 ```
+### Change orientation
 
-### Startup server on boot
+sudo nano /boot/config.txt
+add the line display_rotate=1
 
-Open up the `rc.local`
-
-```
-$ sudo nano /etc/rc.local
-```
-
-And add the following line before `exit 0`:
-
-```
-su pi -c '/usr/bin/sudo /usr/bin/python3 /home/pi/iHomeMirror-Turnkey/startup.py &'
-```
 
 ### Shutdown the pi
 
