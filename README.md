@@ -36,10 +36,10 @@ These instructions assume you are using Ubuntu. You can use Windows/OS X for mos
 
 ## 1. Flash Raspbian Stretch Lite
 
-Starting from version [Raspbian Stretch Lite](https://www.raspberrypi.org/downloads/raspbian/) version 2017-11-29.
+Starting from version [Raspbian Buster Lite](https://www.raspberrypi.org/downloads/raspbian/).
 
 ```
-$ sudo dd bs=4M if=2017-11-29-raspbian-stretch-lite.img of=/dev/mmcblk0 conv=fsync status=progress
+$ sudo dd bs=4M if=2019-07-10-raspbian-buster-lite.img of=/dev/mmcblk0 conv=fsync status=progress
 ```
 
 Change `/dev/mmcblk0` to whatever your SD card is (find it using `fdisk -l`).
@@ -57,9 +57,11 @@ SSH into your Pi using Ethernet, as you will have to disable the WiFi connection
 ### Basic libraries
 
 ```
-$ sudo apt-get update
-$ sudo apt-get dist-upgrade -y
-$ sudo apt-get install -y dnsmasq hostapd vim python3-flask python3-requests git
+$ sudo apt-get update \
+&& sudo apt-get dist-upgrade -y \
+&& sudo apt-get install -y dnsmasq hostapd vim python3-flask python3-requests git \
+&& sudo apt-get install --no-install-recommends xserver-xorg x11-xserver-utils xinit openbox \
+&& sudo apt-get install --no-install-recommends chromium-browser
 ```
 
 ### Install node (optional)
@@ -89,42 +91,7 @@ $ source ~/.profile
 ### Install turnkey
 
 ```
-$ git clone https://github.com/schollz/raspberry-pi-turnkey.git
-```
-
-### Install Hostapd
-
-```
-$ sudo systemctl stop dnsmasq && sudo systemctl stop hostapd
-
-$ echo 'interface wlan0
-static ip_address=192.168.4.1/24' | sudo tee --append /etc/dhcpcd.conf
-
-$ sudo mv /etc/dnsmasq.conf /etc/dnsmasq.conf.orig  
-$ sudo systemctl daemon-reload
-$ sudo systemctl restart dhcpcd
-
-$ echo 'interface=wlan0
-dhcp-range=192.168.4.2,192.168.4.20,255.255.255.0,24h' | sudo tee --append /etc/dnsmasq.conf
-
-$ echo 'interface=wlan0
-driver=nl80211
-ssid=ConnectToConnect
-hw_mode=g
-channel=7
-wmm_enabled=0
-macaddr_acl=0
-auth_algs=1
-ignore_broadcast_ssid=0
-wpa=2
-wpa_passphrase=ConnectToConnect
-wpa_key_mgmt=WPA-PSK
-wpa_pairwise=TKIP
-rsn_pairwise=CCMP' | sudo tee --append /etc/hostapd/hostapd.conf
-
-$ echo 'DAEMON_CONF="/etc/hostapd/hostapd.conf"' | sudo tee --append /etc/default/hostapd
-
-$ sudo systemctl start hostapd && sudo systemctl start dnsmasq
+$ git clone https://github.com/djok/raspberry-pi-turnkey.git
 ```
 
 ### Add `pi` to sudoers
@@ -141,8 +108,54 @@ Then add this line:
 pi      ALL=(ALL:ALL) ALL
 ```
 
-(_Sidenote:_ I save an image `intermediate.img` at this point so its easy to go back)
+### Startup server on boot
 
+Open up the `rc.local`
+
+```
+$ sudo nano /etc/rc.local
+```
+
+And add the following line before `exit 0`:
+
+```
+su pi -c '/usr/bin/sudo /usr/bin/python3 /home/pi/raspberry-pi-turnkey/startup.py &'
+```
+
+### Install Hostapd
+
+```
+$ sudo systemctl stop dnsmasq && sudo systemctl stop hostapd
+
+<!-- #$ echo 'interface wlan0
+#static ip_address=192.168.4.1/24' | sudo tee --append /etc/dhcpcd.conf -->
+
+$ sudo mv /etc/dnsmasq.conf /etc/dnsmasq.conf.orig  
+$ sudo systemctl daemon-reload
+#$ sudo systemctl restart dhcpcd
+
+<!-- $ echo 'interface=wlan0
+dhcp-range=192.168.4.2,192.168.4.20,255.255.255.0,24h' | sudo tee --append /etc/dnsmasq.conf -->
+
+<!-- $ echo 'interface=wlan0
+driver=nl80211
+ssid=ConnectToConnect
+hw_mode=g
+channel=7
+wmm_enabled=0
+macaddr_acl=0
+auth_algs=1
+ignore_broadcast_ssid=0
+wpa=2
+wpa_passphrase=ConnectToConnect
+wpa_key_mgmt=WPA-PSK
+wpa_pairwise=TKIP
+rsn_pairwise=CCMP' | sudo tee --append /etc/hostapd/hostapd.conf -->
+
+$ echo 'DAEMON_CONF="/etc/hostapd/hostapd.conf"' | sudo tee --append /etc/default/hostapd
+$ sudo systemctl unmask hostapd && sudo systemctl unmask dnsmasq
+$ sudo systemctl start hostapd && sudo systemctl start dnsmasq
+```
 
 ### Startup server on boot
 
