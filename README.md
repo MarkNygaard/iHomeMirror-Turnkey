@@ -168,7 +168,7 @@ $ sudo nano /etc/rc.local
 And add the following line before `exit 0`:
 
 ```
-su pi -c '/usr/bin/sudo /usr/bin/python3 /home/pi/raspberry-pi-turnkey/startup.py &'
+su pi -c '/usr/bin/sudo /usr/bin/python3 /home/pi/iHomeMirror-Turnkey/startup.py &'
 ```
 
 ### Shutdown the pi
