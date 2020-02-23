@@ -161,8 +161,13 @@ $ sudo systemctl start hostapd && sudo systemctl start dnsmasq
 ### Change orientation
 
 sudo nano /boot/config.txt
+
 add the line display_rotate=1
 
+
+### Style chromium browser
+sudo nano /boot/config.txt /
+disable_overscan=1
 
 ### Shutdown the pi
 
