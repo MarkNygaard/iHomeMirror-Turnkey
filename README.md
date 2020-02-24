@@ -132,8 +132,32 @@ $ mv config.js.sample config.js
 $ cd
 $ sudo npm install -g pm2
 $ pm2 startup
-$ pm2 start startup.sh
+$ pm2 start startup.sh --watch ~/MagicMirror/config/config.js
 $ pm2 save
+```
+
+### Disable the screensaver
+```
+$ sudo nano /etc/xdg/lxsession/LXDE/autostart
+```
+
+Add the following lines
+
+```
+$ @xset s noblank
+$ @xset s off
+$ @xset -dpms
+```
+
+Go to lightdm.conf:
+
+```
+$ sudo nano /etc/lightdm/lightdm.conf
+```
+
+add the following line below [Seat:]:
+```
+xserver-command=X -s 0 -dpms
 ```
 
 ### Make a backup of the SD card now before adding startup to rc.local
