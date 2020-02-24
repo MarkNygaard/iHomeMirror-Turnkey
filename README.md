@@ -52,7 +52,7 @@ $ sudo apt-get install libnss3
 $ sudo apt-get install unclutter
 ```
 
-## Install MagicMirror
+### Install MagicMirror
 ```
 $ curl -sL https://deb.nodesource.com/setup_10.x | sudo -E bash -
 $ sudo apt install -y nodejs
@@ -157,7 +157,7 @@ $ sudo nano /etc/lightdm/lightdm.conf
 
 add the following line below [Seat:]:
 ```
-xserver-command=X -s 0 -dpms
+$ xserver-command=X -s 0 -dpms
 ```
 
 ### Make a backup of the SD card now before adding startup to rc.local
@@ -189,7 +189,7 @@ $ sudo nano /etc/rc.local
 And add the following line before `exit 0`:
 
 ```
-su pi -c '/usr/bin/sudo /usr/bin/python3 /home/pi/iHomeMirror-Turnkey/startup.py &'
+$ su pi -c '/usr/bin/sudo /usr/bin/python3 /home/pi/iHomeMirror-Turnkey/startup.py &'
 ```
 
 ### Install Hostapd
@@ -202,7 +202,7 @@ static ip_address=192.168.4.1/24' | sudo tee --append /etc/dhcpcd.conf
 
 $ sudo mv /etc/dnsmasq.conf /etc/dnsmasq.conf.orig  
 $ sudo systemctl daemon-reload
-#$ sudo systemctl restart dhcpcd
+$ sudo systemctl restart dhcpcd
 
 $ echo 'interface=wlan0
 dhcp-range=192.168.4.2,192.168.4.20,255.255.255.0,24h' | sudo tee --append /etc/dnsmasq.conf
