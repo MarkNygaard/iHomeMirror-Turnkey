@@ -5,7 +5,7 @@ The following are the step-by-step instructions for how I create the turnkey ima
 
 These instructions assume you are using Ubuntu. You can use Windows/OS X for most of these steps, except step #4 which requires resizing.
 
-## 1. Flash Raspbian Stretch Lite
+## 1. Flash Raspbian Buster Lite
 
 Starting from version [Raspbian Buster Lite](https://www.raspberrypi.org/downloads/raspbian/).
 
