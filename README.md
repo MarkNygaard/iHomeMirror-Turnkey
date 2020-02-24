@@ -39,10 +39,11 @@ These instructions assume you are using Ubuntu. You can use Windows/OS X for mos
 Starting from version [Raspbian Buster Lite](https://www.raspberrypi.org/downloads/raspbian/).
 
 ```
-$ sudo dd bs=4M if=2019-07-10-raspbian-buster-lite.img of=/dev/mmcblk0 conv=fsync status=progress
+$ diskutil list
+$ diskutil unmountDisk /dev/diskN
+$ sudo dd bs=1m if=path_of_your_image.img of=/dev/rdiskN conv=sync
+$ sudo diskutil eject /dev/rdiskN
 ```
-
-Change `/dev/mmcblk0` to whatever your SD card is (find it using `fdisk -l`).
 
 After flashing, for the first time use, just plug in ethernet and you can SSH into the Pi. To activate SSH on boot just do
 
@@ -57,11 +58,14 @@ SSH into your Pi using Ethernet, as you will have to disable the WiFi connection
 ### Basic libraries
 
 ```
-$ sudo apt-get update \
-&& sudo apt-get dist-upgrade -y \
-&& sudo apt-get install -y dnsmasq hostapd vim python3-flask python3-requests git \
-&& sudo apt-get install --no-install-recommends xserver-xorg x11-xserver-utils xinit openbox \
-&& sudo apt-get install --no-install-recommends chromium-browser
+$ sudo apt-get update && sudo apt-get dist-upgrade -y && sudo apt-get install -y dnsmasq hostapd vim python3-flask python3-requests git && sudo apt-get install --no-install-recommends xserver-xorg x11-xserver-utils xinit openbox && sudo apt-get install --no-install-recommends chromium-browser && sudo apt-get install lxde-core && sudo apt-get install lightdm
+```
+
+## Install MagicMirror
+```
+$ curl -sL https://deb.nodesource.com/setup_10.x | sudo -E bash -
+$ sudo apt install -y nodejs
+$ git clone https://github.com/MichMich/MagicMirror
 ```
 
 ### Install node (optional)
@@ -88,6 +92,12 @@ $ echo 'export GOPATH=$HOME/go' >>  ~/.profile
 $ source ~/.profile
 ```
 
+```
+$ cd MagicMirror/
+$ npm install
+$ npm install electron@6.0.12
+```
+
 ### Install turnkey
 
 ```
@@ -108,16 +118,31 @@ Then add this line:
 pi      ALL=(ALL:ALL) ALL
 ```
 ### Change orientation
-
-sudo nano /boot/config.txt
-
-add the line display_rotate=1
-
+```
+$ sudo nano /boot/config.txt
+$ add the line display_rotate=1
+```
 
 ### Style chromium browser
-sudo nano /boot/config.txt /
-disable_overscan=1
+```
+$ sudo nano /boot/config.txt /
+$ disable_overscan=1
+```
 
+### Change name of MagicMirror configuration
+```
+$ cd MagicMirror/config/
+$ mv config.js.sample config.js
+```
+
+### Install pm2 using NPM
+```
+$ cd
+$ sudo npm install -g pm2
+$ pm2 startup
+$ pm2 start startup.sh
+$ pm2 save
+```
 
 ### Startup server on boot
 
