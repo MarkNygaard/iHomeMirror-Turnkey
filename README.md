@@ -40,9 +40,14 @@ Starting from version [Raspbian Buster Lite](https://www.raspberrypi.org/downloa
 
 ```
 $ diskutil list
-$ diskutil unmountDisk /dev/diskN
+```
+
+Identify you SD Card. The name wil be something like /dev/disk2
+
+```
+$ diskutil unmountDisk /dev/disk2
 $ sudo dd bs=1m if=path_of_your_image.img of=/dev/rdiskN conv=sync
-$ sudo diskutil eject /dev/rdiskN
+$ sudo diskutil eject /dev/rdisk2
 ```
 
 After flashing, for the first time use, just plug in ethernet and you can SSH into the Pi. To activate SSH on boot just do
@@ -50,6 +55,8 @@ After flashing, for the first time use, just plug in ethernet and you can SSH in
 ```
 $ touch /media/YOURUSER/boot/ssh
 ```
+
+Or create an empty file called ssh in the root of your SD Card
 
 ## 2. Install libraries onto the Raspberry Pi
 
@@ -144,6 +151,24 @@ $ pm2 start startup.sh
 $ pm2 save
 ```
 
+### Make a backup of the SD card now before adding startup to rc.local
+```
+$ sudo shutdown now
+```
+
+Remove the SD Card from the mirror to your computer. In your computer terminal type:
+
+```
+$ diskutil list
+```
+
+Identify you SD Card. The name wil be something like /dev/disk2
+
+```
+$ sudo dd if=/dev/rdisk2 of=/Users/Yourname/Desktop/pi.img bs=1m
+$ sudo diskutil eject /dev/rdisk2
+```
+
 ### Startup server on boot
 
 Open up the `rc.local`
@@ -204,48 +229,19 @@ Shutdown the Raspberry Pi and do not start it up until after you write the image
 $ sudo shutdown now
 ```
 
-## 3. Resize Raspberry Pi SD image
+## 3. Save your final image
 
-
-
-If you don't want to resize the image, you can just write the entire image file to your computer and use that from here on. If you do want to resize (especially useful if you are installing on a 16GB card and want to flash onto a smaller card), follow these instructions.
-
-Put the newly made image into Ubuntu and do
+Make a final image of the finished product.
 
 ```
-$ xhost +local:
-$ sudo gparted-pkexec
+$ sudo dd if=/dev/rdisk2 of=/Users/Yourname/Desktop/pi.img bs=1m
 ```
 
-Right click on the SD card image and do "Unmount". Then right click on the image and do "Resize/Move" and change the size to `2400`.
-
-Then you can copy the image to your computer using the following command
+The new image will be in `/some/place/iHomeMirror-Turnkey.img` which you can use to flash other SD cards. To test it out, get a new SD card and do:
 
 ```
-$ sudo dd if=/dev/mmcblk0 of=/some/place/turnkey.img bs=1M count=2400 status=progress
+$ sudo dd bs=1m if=path_of_your_image.img of=/dev/rdisk2 conv=sync
 ```
-
-Again `/dev/mmcblk0` is your SD card which you can determine using `fdisk -l`.  The location of the image, `/some/place/`, should be set by you.
-
-## 4. Test the turnkey image
-
-The new image will be in `/some/place/2018-turnkey.img` which you can use to flash other SD cards. To test it out, get a new SD card and do:
-
-```
-$ sudo dd bs=4M if=/some/place/turnkey.img of=/dev/mmcblk0 conv=fsync status=progress
-```
-
-# Roadmap
-
-- [x] ~~Add messaging system to send the LAN IP address once online~~ (uses https://github.com/schollz/snaptext)
-- [x] ~~Add startup hooks~~ (just edit `startup.sh`)
-- [ ] connect immediately to wifi and disable hostapd without rebooting
-
-If you'd like to contribute, please do send a PR!
-
-# Thanks
-
-Thanks to [@ilirb](https://github.com/ilirb) for checking if passphrase is correct before rebooting!
 
 # License
 
