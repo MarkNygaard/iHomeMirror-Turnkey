@@ -39,11 +39,30 @@ SSH into your Pi using Ethernet, as you will have to disable the WiFi connection
 $ sudo apt-get update && sudo apt-get dist-upgrade -y && sudo apt-get install -y dnsmasq hostapd vim python3-flask python3-requests git && sudo apt-get install --no-install-recommends xserver-xorg x11-xserver-utils xinit openbox && sudo apt-get install --no-install-recommends chromium-browser && sudo apt-get install lxde-core && sudo apt-get install lightdm
 ```
 
+```
+$ sudo raspi-config
+```
+
+Go to "Boot Options" and change boot to "Desktop" or "Desktop Autologin"
+
+```
+$ sudo apt-get install git
+$ sudo apt-get install libxss1
+$ sudo apt-get install libnss3
+$ sudo apt-get install unclutter
+```
+
 ## Install MagicMirror
 ```
 $ curl -sL https://deb.nodesource.com/setup_10.x | sudo -E bash -
 $ sudo apt install -y nodejs
 $ git clone https://github.com/MichMich/MagicMirror
+```
+
+```
+$ cd MagicMirror/
+$ npm install
+$ npm install electron@6.0.12
 ```
 
 ### Install node (optional)
@@ -70,12 +89,6 @@ $ echo 'export GOPATH=$HOME/go' >>  ~/.profile
 $ source ~/.profile
 ```
 
-```
-$ cd MagicMirror/
-$ npm install
-$ npm install electron@6.0.12
-```
-
 ### Install turnkey
 
 ```
@@ -95,10 +108,11 @@ Then add this line:
 ```
 pi      ALL=(ALL:ALL) ALL
 ```
-### Change orientation
+### Change orientation and remove rainbow colored cube
 ```
 $ sudo nano /boot/config.txt
 $ add the line display_rotate=1
+$ disable_splash=1
 ```
 
 ### Style chromium browser
