@@ -107,6 +107,17 @@ Then add this line:
 ```
 pi      ALL=(ALL:ALL) ALL
 ```
+### Change orientation
+
+sudo nano /boot/config.txt
+
+add the line display_rotate=1
+
+
+### Style chromium browser
+sudo nano /boot/config.txt /
+disable_overscan=1
+
 
 ### Startup server on boot
 
@@ -158,16 +169,7 @@ $ sudo systemctl enable hostapd && sudo systemctl enable dnsmasq
 $ sudo rfkill unblock all
 $ sudo systemctl start hostapd && sudo systemctl start dnsmasq
 ```
-### Change orientation
 
-sudo nano /boot/config.txt
-
-add the line display_rotate=1
-
-
-### Style chromium browser
-sudo nano /boot/config.txt /
-disable_overscan=1
 
 ### Shutdown the pi
 
