@@ -138,17 +138,17 @@ su pi -c '/usr/bin/sudo /usr/bin/python3 /home/pi/iHomeMirror-Turnkey/startup.py
 ```
 $ sudo systemctl stop dnsmasq && sudo systemctl stop hostapd
 
-<!-- #$ echo 'interface wlan0
-#static ip_address=192.168.4.1/24' | sudo tee --append /etc/dhcpcd.conf -->
+$ echo 'interface wlan0
+static ip_address=192.168.4.1/24' | sudo tee --append /etc/dhcpcd.conf
 
 $ sudo mv /etc/dnsmasq.conf /etc/dnsmasq.conf.orig  
 $ sudo systemctl daemon-reload
 #$ sudo systemctl restart dhcpcd
 
-<!-- $ echo 'interface=wlan0
-dhcp-range=192.168.4.2,192.168.4.20,255.255.255.0,24h' | sudo tee --append /etc/dnsmasq.conf -->
+$ echo 'interface=wlan0
+dhcp-range=192.168.4.2,192.168.4.20,255.255.255.0,24h' | sudo tee --append /etc/dnsmasq.conf
 
-<!-- $ echo 'interface=wlan0
+$ echo 'interface=wlan0
 driver=nl80211
 ssid=iHomeMirror
 hw_mode=g
@@ -161,12 +161,12 @@ wpa=2
 wpa_passphrase=ihomemirror
 wpa_key_mgmt=WPA-PSK
 wpa_pairwise=TKIP
-rsn_pairwise=CCMP' | sudo tee --append /etc/hostapd/hostapd.conf -->
+rsn_pairwise=CCMP' | sudo tee --append /etc/hostapd/hostapd.conf
 
 $ echo 'DAEMON_CONF="/etc/hostapd/hostapd.conf"' | sudo tee --append /etc/default/hostapd
 $ sudo systemctl unmask hostapd && sudo systemctl unmask dnsmasq
 $ sudo systemctl enable hostapd && sudo systemctl enable dnsmasq
-$ sudo rfkill unblock all
+$ sudo rfkill unblock wifi
 $ sudo systemctl start hostapd && sudo systemctl start dnsmasq
 ```
 
