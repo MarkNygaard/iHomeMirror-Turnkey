@@ -132,7 +132,7 @@ $ mv config.js.sample config.js
 $ cd
 $ sudo npm install -g pm2
 $ pm2 startup
-$ pm2 start startup.sh --watch ~/MagicMirror/config/config.js
+$ pm2 start ~/iHomeMirror-Turnkey/startup.sh --watch ~/MagicMirror/config/config.js
 $ pm2 save
 ```
 
