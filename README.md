@@ -36,7 +36,7 @@ SSH into your Pi using Ethernet, as you will have to disable the WiFi connection
 ### Basic libraries
 
 ```
-$ sudo apt-get update && sudo apt-get dist-upgrade -y && sudo apt-get install -y dnsmasq hostapd vim python3-flask python3-requests git && sudo apt-get install --no-install-recommends xserver-xorg x11-xserver-utils xinit openbox && sudo apt-get install --no-install-recommends chromium-browser && sudo apt-get install lxde-core && sudo apt-get install lightdm
+$ sudo apt-get update && sudo apt-get dist-upgrade -y && sudo apt-get install -y dnsmasq hostapd vim python3-flask python3-requests git && sudo apt-get install --no-install-recommends xserver-xorg x11-xserver-utils xinit openbox && sudo apt-get install --no-install-recommends chromium-browser && sudo apt-get install lxde-core && sudo apt-get install lightdm && sudo apt-get install unclutter
 ```
 
 ```
@@ -136,6 +136,14 @@ $ pm2 start ~/iHomeMirror-Turnkey/startup.sh --watch ~/MagicMirror/config/config
 $ pm2 save
 ```
 
+### Disable text terminals from blanking
+
+change two settings in /etc/kbd/config
+```
+$ sudo nano /etc/kbd/config
+$ BLANK_TIME=0
+$ POWERDOWN_TIME=0
+```
 ### Disable the screensaver
 ```
 $ sudo nano /etc/xdg/lxsession/LXDE/autostart
@@ -147,6 +155,7 @@ Add the following lines
 $ @xset s noblank
 $ @xset s off
 $ @xset -dpms
+$ @unclutter -display :0 -idle 3 -root -noevents
 ```
 
 Go to lightdm.conf:
@@ -160,6 +169,48 @@ add the following line below [Seat:]:
 $ xserver-command=X -s 0 -dpms
 ```
 
+### Remove raspberry logo and text in Boot
+```
+$ sudo nano /boot/cmdline.txt
+```
+Replace the line with the following
+```
+$ console=serial0,115200 console=tty3 root=PARTUUID=738a4d67-02 rootfstype=ext4 elevator=deadline fsck.repair=yes rootwait splash quiet plymouth.ignore-serial-consoles logo.nologo vt.global_cursor_default=0 consoleblank=0 loglevel=1
+```
+Save with ctrl+x, type yes and enter
+```
+$ sudo systemctl disable getty@tty1
+$ sudo apt install fbi
+$ sudo nano /etc/systemd/system/splashscreen.service
+```
+Insert the following and save the file
+```
+[Unit]
+Description=Splash screen
+DefaultDependencies=no
+After=local-fs.target
+
+[Service]
+ExecStart=/usr/bin/fbi -d /dev/fb0 --noverbose -a /home/pi/splash.png
+StandardInput=tty
+StandardOutput=tty
+
+[Install]
+WantedBy=sysinit.target
+```
+
+```
+$ sudo systemctl enable splashscreen
+```
+If you haven't placed a splash image in your root folder you can do that by open you standard terminal (not the one you use for ssh) and copy a file over shh from your computer using the following command.
+```
+$ scp /location/splash.png pi@ip of your pi:~/my_splash.png
+```
+Overwrite MagicMirror splash screen with custom
+```
+$ cp /home/pi/splash.png /home/pi/MagicMirror/splashscreen/splash.png
+$ cp /home/pi/splash.png /home/pi/MagicMirror/splashscreen/splash_halt.png
+```
 ### Make a backup of the SD card now before adding startup to rc.local
 ```
 $ sudo shutdown now
