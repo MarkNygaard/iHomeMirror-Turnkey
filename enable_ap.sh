@@ -6,9 +6,8 @@ sleep 3
 sudo echo 'interface=wlan0
 driver=nl80211
 ssid=iHomeMirror
-hw_mode=g
 channel=7
-wmm_enabled=0
+hw_mode=g
 macaddr_acl=0
 auth_algs=1
 ignore_broadcast_ssid=0
