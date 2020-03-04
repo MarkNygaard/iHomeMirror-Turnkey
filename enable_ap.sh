@@ -12,11 +12,7 @@ wmm_enabled=0
 macaddr_acl=0
 auth_algs=1
 ignore_broadcast_ssid=0
-wpa=2
-wpa_passphrase=
-wpa_key_mgmt=WPA-PSK
-wpa_pairwise=TKIP
-rsn_pairwise=CCMP' > /etc/hostapd/hostapd.conf
+' > /etc/hostapd/hostapd.conf
 
 sudo cp config/hostapd /etc/default/hostapd
 sudo cp config/dhcpcd.conf /etc/dhcpcd.conf
