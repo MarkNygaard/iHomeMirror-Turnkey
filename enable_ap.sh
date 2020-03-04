@@ -6,12 +6,11 @@ sleep 3
 sudo echo 'interface=wlan0
 driver=nl80211
 ssid=iHomeMirror
-channel=7
+channel=6
 hw_mode=g
 macaddr_acl=0
 auth_algs=1
-ignore_broadcast_ssid=0
-' > /etc/hostapd/hostapd.conf
+ignore_broadcast_ssid=0' > /etc/hostapd/hostapd.conf
 
 sudo cp config/hostapd /etc/default/hostapd
 sudo cp config/dhcpcd.conf /etc/dhcpcd.conf

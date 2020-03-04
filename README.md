@@ -228,6 +228,16 @@ $ sudo dd if=/dev/rdisk2 of=/Users/Yourname/Desktop/pi.img bs=1m
 $ sudo diskutil eject /dev/rdisk2
 ```
 
+### Change Debian graphics
+Change Desktop background on Debian and hide icons. Set wallpaper= to point at the file.
+```
+$ sudo nano ~/.config/pcmanfm/LXDE/desktop-items-0.conf
+```
+Change debian boot screen here:
+```
+$ cd /usr/share/desktop-base/active-theme/plymouth
+```
+
 ### Startup server on boot
 
 Open up the `rc.local`
