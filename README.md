@@ -36,7 +36,7 @@ SSH into your Pi using Ethernet, as you will have to disable the WiFi connection
 ### Basic libraries
 
 ```
-$ sudo apt-get update && sudo apt-get dist-upgrade -y && sudo apt-get install -y dnsmasq hostapd vim python3-flask python3-requests git && sudo apt-get install --no-install-recommends xserver-xorg x11-xserver-utils xinit openbox && sudo apt-get install --no-install-recommends chromium-browser && sudo apt-get install lxde-core && sudo apt-get install lightdm && sudo apt-get install unclutter
+$ sudo apt-get update && sudo apt-get dist-upgrade -y && sudo apt-get install -y dnsmasq hostapd vim python3-flask python3-requests git && sudo apt-get install --no-install-recommends xserver-xorg x11-xserver-utils xinit openbox && sudo apt-get install --no-install-recommends chromium-browser && sudo apt-get install lxde-core && sudo apt-get install lightdm && sudo apt-get install unclutter && sudo apt-get install git && sudo apt-get install libxss1 && sudo apt-get install libnss3
 ```
 
 ```
@@ -45,12 +45,6 @@ $ sudo raspi-config
 
 Go to "Boot Options" and change boot to "Desktop" or "Desktop Autologin"
 
-```
-$ sudo apt-get install git
-$ sudo apt-get install libxss1
-$ sudo apt-get install libnss3
-$ sudo apt-get install unclutter
-```
 
 ### Install MagicMirror
 ```
@@ -168,6 +162,11 @@ add the following line below [Seat:]:
 ```
 $ xserver-command=X -s 0 -dpms
 ```
+Close the file and run
+
+```
+$ sudo apt-get remove xscreensaver
+```
 
 ### Remove raspberry logo and text in Boot
 ```
@@ -268,7 +267,7 @@ macaddr_acl=0
 auth_algs=1
 ignore_broadcast_ssid=0
 wpa=2
-wpa_passphrase=ihomemirror
+wpa_passphrase=
 wpa_key_mgmt=WPA-PSK
 wpa_pairwise=TKIP
 rsn_pairwise=CCMP' | sudo tee --append /etc/hostapd/hostapd.conf
