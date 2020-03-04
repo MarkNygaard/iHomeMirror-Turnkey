@@ -19,16 +19,9 @@
 
     <!-- jQuery -->
     <script type="text/javascript" src="jquery.min.js"></script>
-
-    <!-- keyboard widget css & script -->
-    <link href="static/keyboard-dark.min.css" rel="stylesheet">
-    <script src="static/jquery.keyboard.min.js"></script>
-
-    <!-- <script src="languages/de.min.js"></script> -->
-    <!-- <script src="languages/ms-Swiss-German.min.js"></script> -->
     <script src="languages/ms-US-English.min.js"></script>
 
-    <link rel="stylesheet" type="text/css" href="keyboard.min.css">
+
     <style type="text/css">
       body {
         width: 480px;
@@ -38,28 +31,6 @@
       /*
         Make the Layout look good on 480x320 screen
       */
-      .ui-keyboard-actionkey:not(.ui-keyboard-dec):not(.ui-keyboard-combo) {
-        min-width: 4em;
-      }
-
-      .ui-keyboard {
-        max-width: 480px;
-      }
-
-      .ui-keyboard {
-        position: fixed !important;
-      }
-
-      .ui-keyboard div {
-        font-size: 14px !important;
-      }
-      .ui-keyboard-actionkey:not(.ui-keyboard-dec):not(.ui-keyboard-combo) span {
-        font-size: 1.2em;
-        position: static;
-        top: auto;
-        left: auto;
-      }
-
       .mdc-list {
         border: 1px solid rgba(0,0,0,.1);
         outline: none;
@@ -158,65 +129,6 @@
   </head>
 
   <body>
-    <script type="text/javascript">
-      $(function() {
-        $.keyboard.keyaction.enter = function(base, el, e) {
-          // close the form and fill in the correct value
-          base.accept();
-        }
-
-        $('#inputPassword').keyboard({
-          language: ["en"],
-          layout: 'ms-US English (Latin)',
-          initialFocus: false,
-          beforeClose: () => {
-          }
-        })
-
-        $("#login").on("click", function() {
-          // display a loading icon
-          $("#spinner").show();
-        })
-
-        // initialy, the password should be hidden
-        $("#password").hide()
-
-        // when pressing next, show the password view
-        $("#next").on("click", function() {
-          $("#ssid").hide()
-          $("#password").show()
-          $("#button_container").hide()
-          $("#top_container").toggleClass("container")
-        })
-
-        // if the user wants to go back, let him
-        $("#back").on("click", function() {
-          $("#ssid").show()
-          $("#password").hide()
-          $("#button_container").show()
-          $("#top_container").toggleClass("container")
-        })
-
-        $(".mdc-list-item").on("click", function(e) {
-          $(".mdc-list-item").each(function(index) {
-            $(this).removeClass("active-item")
-          })
-
-          $(e.target).addClass("active-item");
-          // this ensures that the server still has access to the selected ssid
-          $("#ssid_hidden").val(e.target.innerText)
-        })
-
-        $("#up").on("click", function() {
-          window.scrollBy(0, -100);
-        })
-        $("#down").on("click", function() {
-          window.scrollBy(0, 100);
-        })
-      })
-
-    </script>
-
     <!-- <div class="text-center mb-4">
       <h1 class="h3 mb-3 font-weight-normal">Login</h1>
     </div>   -->
