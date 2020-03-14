@@ -1,4 +1,3 @@
-
 <!doctype html>
 <html lang="en">
   <head>
@@ -12,161 +11,33 @@
     <!-- Bootstrap core CSS -->
     <link href="/static/bootstrap.min.css" rel="stylesheet">
 
-    <link href="/static/spinner.css" rel="stylesheet">
-
     <!-- Custom styles for this template -->
     <link href="/static/floating-labels.css" rel="stylesheet">
-
-    <!-- jQuery -->
-    <script type="text/javascript" src="jquery.min.js"></script>
-    <script src="languages/ms-US-English.min.js"></script>
-
-
-    <style type="text/css">
-      body {
-        width: 480px;
-        display: block;
-      }
-
-      /*
-        Make the Layout look good on 480x320 screen
-      */
-      .mdc-list {
-        border: 1px solid rgba(0,0,0,.1);
-        outline: none;
-
-        font-family: Roboto,sans-serif;
-        -moz-osx-font-smoothing: grayscale;
-        -webkit-font-smoothing: antialiased;
-        font-size: 1rem;
-        line-height: 1.75rem;
-        font-weight: 400;
-        letter-spacing: .009375em;
-        text-decoration: inherit;
-        text-transform: inherit;
-        line-height: 1.5rem;
-        margin: 0;
-        padding: 8px 0;
-        list-style-type: none;
-        color: rgba(0,0,0,.87);
-      }
-
-      <!-- recreate the google material list -->
-      .mdc-list li {
-        list-style: none;
-      }
-
-      .mdc-list-item {
-        display: -ms-flexbox;
-        display: flex;
-        position: relative;
-        -ms-flex-align: center;
-        align-items: center;
-        -ms-flex-pack: start;
-        justify-content: flex-start;
-        height: 48px;
-        padding: 0 16px;
-        overflow: hidden;
-      }
-
-      .mdc-list-item:hover:before {
-        opacity: .1;
-      }
-
-      .mdc-list-item:after,.mdc-list-item:before {
-        top: -50%;
-        left: -50%;
-        width: 200%;
-        height: 200%;
-      }
-
-      .mdc-list-item:after, .mdc-list-item:before {
-        background-color: #000;
-      }
-
-      .mdc-list-item:before {
-        -webkit-transition: opacity 15ms linear,background-color 15ms linear;
-        -o-transition: opacity 15ms linear,background-color 15ms linear;
-        transition: opacity 15ms linear,background-color 15ms linear;
-        z-index: 1;
-      }
-
-      .mdc-list-item:after, .mdc-list-item:before {
-        position: absolute;
-        border-radius: 50%;
-        opacity: 0;
-        pointer-events: none;
-        content: "";
-      }
-
-      #ssid_hidden {
-        display: none;
-      }
-
-      #spinner {
-        display: none;
-      }
-
-      .active-item:before{
-        opacity: .3;
-      }
-
-      .container {
-        display: grid;
-        grid-template-columns: 80% 20%;
-      }
-
-      #up {
-        position: fixed;
-        top: 15px;
-      }
-
-      #down {
-        position: fixed;
-        bottom: 15px;
-      }
-    </style>
   </head>
 
   <body>
-    <!-- <div class="text-center mb-4">
-      <h1 class="h3 mb-3 font-weight-normal">Login</h1>
-    </div>   -->
-    <div id="top_container" class="container">
-      <form class="form-signin" action="/signin" method="POST">
-        <div id="ssid">
-          <div class="form-group">
-            <label for="inputSSID">Select your home WiFi</label>
-            <ul class="mdc-list" tabindex="0">
-              {% for s in ssids %}
-                <li class="mdc-list-item">
-                  {{ s }}
-                </li>
-              {% endfor %}
-            </ul>
-
-            <input name="ssid" id="ssid_hidden" type="text" />
-          </div>
-
-          <button class="btn btn-lg btn-primary btn-block" id="next">Next</button>
-        </div>
-
-        <div id="password">
-          <div class="form-label-group">
-            <input id="inputPassword" type="text" autocorrect="off" autocapitalize="none" pattern=".{0}|.{8,}" name="password" class="form-control" placeholder="SSID Password" required>
-            <label for="inputPassword">Password</label>
-          </div>
-
-          <button class="btn btn-lg btn-primary btn-block" id="back">Back</button>
-          <button class="btn btn-lg btn-primary btn-block" type="submit" id="login">Login</button>
-        </div>
-      </form>
-      <div id="button_container">
-        <button id="up" class="btn btn-lg">▲</button>
-        <button id="down" class="btn btn-lg">▼</button>
+    <form class="form-signin" action="/signin" method="POST">
+      <div class="text-center mb-4">
+<!--         <img class="mb-4" src="https://getbootstrap.com/assets/brand/bootstrap-solid.svg" alt="" width="72" height="72">
+ -->
+       <h1 class="h3 mb-3 font-weight-normal">Sign in</h1>
+        {% if message %}<p>{{ message|safe }}</p>{% endif %}
       </div>
-    </div>
-    <!-- the divs are required -->
-      <div id="spinner" class="lds-spinner"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>
+
+      <div class="form-group">
+        <label for="inputSSID">Select your home Wi-Fi</label>
+        <select class="form-control" id="inputSSID" name="ssid">
+          {% for s in ssids %}
+          <option>{{ s }}</option>
+          {% endfor %}
+        </select>
+      </div>
+
+      <div class="form-label-group">
+        <input id="inputPassword" autocorrect="off" autocapitalize="none" pattern=".{0}|.{8,}" name="password" class="form-control" placeholder="SSID Password" required>
+        <label for="inputPassword">Password</label>
+      </div>
+
+      <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
+    </form>
   </body>
-</html>
